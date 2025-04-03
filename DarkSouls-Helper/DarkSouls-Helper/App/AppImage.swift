@@ -11,6 +11,8 @@ import Foundation
 struct AppImage {
     struct TabBar {
         //private static let configuration = UIImage.SymbolConfiguration(pointSize: 32, weight: .light)
+     
+        static let background = UIImage(named: "tabBar")
         
         static let bonfire = UIImage(named: "bonfire")?.resizedImage(targetSize: CGSize(width: 40, height: 40))?.withRenderingMode(.alwaysOriginal)
         static let bonfireUnselected = UIImage(named: "bonfire_unselected")?.resizedImage(targetSize: CGSize(width: 40, height: 40))?.withRenderingMode(.alwaysOriginal)
@@ -23,6 +25,12 @@ struct AppImage {
     }
     
     struct View {
+        static let background = UIImage(named: "background")
+        static let goldBackground = UIImage(named: "gold")
+        
+        static let separator = UIImage(named: "separator")
+        static let column = UIImage(named: "column")
+        
         static let bigBonfire = UIImage(named: "big_bonfire")
     }
 }

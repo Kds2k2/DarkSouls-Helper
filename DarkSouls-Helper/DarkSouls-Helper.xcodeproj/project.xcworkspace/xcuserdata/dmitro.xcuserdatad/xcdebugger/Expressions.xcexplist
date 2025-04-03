@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "TabBarCoordinator.init():TabBarCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "AppImage.TabBar.background">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

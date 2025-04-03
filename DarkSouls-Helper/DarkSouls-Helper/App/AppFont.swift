@@ -14,4 +14,8 @@ struct AppFont {
     struct TabBar {
         static let title = UIFont.ebgGaramondFont(ofSize: 18, weight: .regular)
     }
+    
+    struct View {
+        static let title = UIFont.ebgGaramondFont(ofSize: 24, weight: .semibold)
+    }
 }

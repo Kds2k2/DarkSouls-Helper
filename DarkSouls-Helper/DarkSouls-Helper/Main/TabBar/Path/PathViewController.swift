@@ -11,27 +11,39 @@ class PathViewController: UIViewController {
 
     var onEnd: () -> () = {}
     
-    private lazy var button: UIButton = {
-        var configuration = UIButton.Configuration.plain()
-        configuration.baseBackgroundColor = .white
-        configuration.baseForegroundColor = .black
-        configuration.title               = "Next"
-        let action = UIAction { _ in self.didButtonTap() }
-        let button = UIButton(configuration: configuration, primaryAction: action)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    private lazy var emptyImageView: EmptyView = {
+        let view = EmptyView()
+        view.titleText = "Not available yet."
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var backgroundImageView: UIImageView = {
+        let view = UIImageView()
+        view.image = AppImage.View.background
+        view.contentMode = .scaleAspectFill
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = AppColor.background
-        view.addSubview(button)
+        
+        view.addSubview(backgroundImageView)
+        view.addSubview(emptyImageView)
+        
         NSLayoutConstraint.activate([
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            button.heightAnchor.constraint(equalToConstant: 44),
-            button.widthAnchor.constraint(equalToConstant: 150),
+            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: -20),
+            backgroundImageView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            backgroundImageView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            emptyImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
+            emptyImageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
+            emptyImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyImageView.heightAnchor.constraint(equalToConstant: 70),
         ])
     }
     

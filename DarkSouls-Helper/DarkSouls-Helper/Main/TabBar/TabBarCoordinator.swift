@@ -14,9 +14,19 @@ final class TabBarCoordinator: Coordinator {
     
     init() {
         rootViewController = UITabBarController()
-        rootViewController.setValue(CustomTabBar(), forKey: "tabBar")
         
-        //rootViewController.tabBar.backgroundColor = .white
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundImage = AppImage.TabBar.background
+        appearance.backgroundImageContentMode  = .scaleAspectFill
+        
+        let tabBar = CustomTabBar()
+        tabBar.tintColor               = .orange
+        tabBar.standardAppearance      = appearance
+        tabBar.scrollEdgeAppearance    = appearance
+        
+        rootViewController.setValue(tabBar, forKey: "tabBar")
+        addCustomViewToTabBar()
     }
     
     func start() {
@@ -37,5 +47,15 @@ final class TabBarCoordinator: Coordinator {
                                                    statsCoordinator.rootViewController
                                                   ]
         self.rootViewController.selectedIndex = 1
+    }
+    
+    func addCustomViewToTabBar() {
+        let tabBar = rootViewController.tabBar
+
+        let frame = CGRect(x: 0, y: 0, width: tabBar.frame.width, height: 40)
+        let customView = SeparatorView(frame: frame)
+        customView.center = CGPoint(x: tabBar.bounds.midX, y: tabBar.bounds.minY + 20)
+
+        tabBar.addSubview(customView)
     }
 }

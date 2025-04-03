@@ -19,11 +19,13 @@ final class AppCoordinator: Coordinator {
     func start() {
         
         if let existed = UserDefaultsManager.shared.isCharacterExisted, existed {
+            print("ex")
             let tabBarCoordinator = TabBarCoordinator()
             tabBarCoordinator.start()
             self.childCoordinators = [tabBarCoordinator]
             window.rootViewController = tabBarCoordinator.rootViewController
         } else {
+            print("not ex")
             let characterCoordinator = CharacterCoordinator()
             characterCoordinator.start()
             characterCoordinator.onEnd = { [weak self] in
