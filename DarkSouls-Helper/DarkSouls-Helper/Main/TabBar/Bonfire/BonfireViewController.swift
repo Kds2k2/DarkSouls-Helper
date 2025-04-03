@@ -13,8 +13,8 @@ class BonfireViewController: UIViewController {
     
     private lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
-        view.image = AppImage.View.background
-        view.contentMode = .scaleAspectFill
+        view.image = AppImage.View.backgroundSlice
+        view.contentMode = .scaleToFill
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -43,10 +43,10 @@ class BonfireViewController: UIViewController {
         view.addSubview(bonfireImageView)
 
         NSLayoutConstraint.activate([
-            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: -20),
-            backgroundImageView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            backgroundImageView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: -15),
+            backgroundImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -15),
+            backgroundImageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 15),
+            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 15),
             
             frameImageView.topAnchor.constraint(equalTo: view.topAnchor),
             frameImageView.leftAnchor.constraint(equalTo: view.leftAnchor),

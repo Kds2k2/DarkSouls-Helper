@@ -26,7 +26,12 @@ struct AppImage {
     
     struct View {
         static let background = UIImage(named: "background")
+        static let backgroundSlice = UIImage(named: "backgroundSlice")
         static let goldBackground = UIImage(named: "gold")
+        
+        static let statsFrame = UIImage(named: "statsFrame")
+        static let statFrame = UIImage(named: "statFrame")
+        static let statSeparator = UIImage(named: "statSeparator")
         
         static let separator = UIImage(named: "separator")
         static let column = UIImage(named: "column")

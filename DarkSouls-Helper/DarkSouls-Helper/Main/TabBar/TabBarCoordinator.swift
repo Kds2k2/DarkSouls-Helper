@@ -20,6 +20,22 @@ final class TabBarCoordinator: Coordinator {
         appearance.backgroundImage = AppImage.TabBar.background
         appearance.backgroundImageContentMode  = .scaleAspectFill
         
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.gray,
+            .font: AppFont.TabBar.title
+        ]
+        
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: AppColor.title,
+            .font: AppFont.TabBar.title
+        ]
+        
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = attributes
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
+
+//        appearance.stackedLayoutAppearance.normal.badgeTitlePositionAdjustment = UIOffset(horizontal: 0, vertical: 16)
+//        appearance.stackedLayoutAppearance.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 16)
+//        
         let tabBar = CustomTabBar()
         tabBar.tintColor               = .orange
         tabBar.standardAppearance      = appearance

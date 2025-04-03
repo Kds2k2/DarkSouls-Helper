@@ -25,6 +25,8 @@ final class StatsCoordinator: Coordinator {
             .foregroundColor: UIColor.orange
         ], for: .selected)
         
+        item.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
+        
         vc.tabBarItem = item
         vc.tabBarItem.tag = 3
         return vc
