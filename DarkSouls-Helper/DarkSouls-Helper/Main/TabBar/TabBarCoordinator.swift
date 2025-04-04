@@ -32,10 +32,7 @@ final class TabBarCoordinator: Coordinator {
         
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = attributes
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
-
-//        appearance.stackedLayoutAppearance.normal.badgeTitlePositionAdjustment = UIOffset(horizontal: 0, vertical: 16)
-//        appearance.stackedLayoutAppearance.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 16)
-//        
+   
         let tabBar = CustomTabBar()
         tabBar.tintColor               = .orange
         tabBar.standardAppearance      = appearance

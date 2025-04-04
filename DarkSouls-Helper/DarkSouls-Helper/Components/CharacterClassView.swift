@@ -1,8 +1,8 @@
 //
-//  StatView.swift
+//  CharacterClassView.swift
 //  DarkSouls-Helper
 //
-//  Created by Dmitro Kryzhanovsky on 03.04.2025.
+//  Created by Dmitro Kryzhanovsky on 04.04.2025.
 //
 
 import Foundation
@@ -10,11 +10,33 @@ import UIKit
 
 final public class CharacterClassView: UIView {
 
-    private var frameImageView: UIImageView = {
+    var `class`: CharacterClass? {
+        didSet {
+            configure()
+        }
+    }
+    
+    var isSelected: Bool? {
+        didSet {
+            guard let isSelected = isSelected else { return }
+            backgroundView.isHidden = !isSelected
+        }
+    }
+    
+    private var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.orange
+        view.alpha = 0.2
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var classFrameImageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .clear
-        view.image = AppImage.View.statFrame
-        view.contentMode = .scaleToFill
+        view.image = AppImage.View.classFrame
+        view.contentMode = .scaleAspectFit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -22,24 +44,13 @@ final public class CharacterClassView: UIView {
     private var titleLabel: UILabel = {
         let view = UILabel()
         view.backgroundColor = .clear
-        view.text = "Test"
+        view.text = "SomeClass"
         view.font = AppFont.View.title
-        view.textColor = .white
+        view.textColor = AppColor.classTitle
         view.textAlignment = .center
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-//    private var stackView: UIStackView = {
-//        let view = UIStackView()
-//        view.axis = .vertical
-//        view.distribution = .fillEqually
-//        view.alignment = .fill
-//        view.spacing = 5
-//        view.backgroundColor = .systemBlue
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,20 +61,36 @@ final public class CharacterClassView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var stackTopConstraint: NSLayoutConstraint?
+    private var stackLeftConstraint: NSLayoutConstraint?
+    private var stackRightConstraint: NSLayoutConstraint?
+    private var stackBottomConstraint: NSLayoutConstraint?
+    
     private func setup() {
         backgroundColor = .clear
         
-        addSubview(frameImageView)
+        addSubview(backgroundView)
+        addSubview(classFrameImageView)
         addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            frameImageView.topAnchor.constraint(equalTo: topAnchor),
-            frameImageView.leftAnchor.constraint(equalTo: leftAnchor),
-            frameImageView.rightAnchor.constraint(equalTo: rightAnchor),
-            frameImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backgroundView.topAnchor.constraint(equalTo: topAnchor),
+            backgroundView.leftAnchor.constraint(equalTo: leftAnchor),
+            backgroundView.rightAnchor.constraint(equalTo: rightAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            classFrameImageView.topAnchor.constraint(equalTo: topAnchor),
+            classFrameImageView.leftAnchor.constraint(equalTo: leftAnchor),
+            classFrameImageView.rightAnchor.constraint(equalTo: rightAnchor),
+            classFrameImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
+    }
+    
+    private func configure() {
+        guard let `class` = `class` else { return }
+        titleLabel.text = `class`.title
     }
 }

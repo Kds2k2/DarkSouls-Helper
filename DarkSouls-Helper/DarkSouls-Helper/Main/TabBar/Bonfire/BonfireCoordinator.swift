@@ -8,7 +8,11 @@ import UIKit
 
 final class BonfireCoordinator: Coordinator {
     
-    var rootViewController = UINavigationController()
+    var rootViewController: UINavigationController = {
+        let root = UINavigationController()
+        //TODO: ...
+        return root
+    }()
     
     lazy var bonfireViewController: BonfireViewController = {
         let vc = BonfireViewController()

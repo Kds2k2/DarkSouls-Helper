@@ -9,7 +9,13 @@ import Foundation
 import UIKit
 
 final public class StatsView: UIView {
-
+    
+    var gameClass: CharacterClass? {
+        didSet {
+            addStats()
+        }
+    }
+    
     private var stackTopConstraint: NSLayoutConstraint?
     private var stackLeftConstraint: NSLayoutConstraint?
     private var stackRightConstraint: NSLayoutConstraint?
@@ -76,25 +82,35 @@ final public class StatsView: UIView {
             stackRightConstraint!,
             stackBottomConstraint!
         ])
+    }
+    
+    private func addStats() {
+        guard let gameClass = gameClass else { return }
         
+        stackView.arrangedSubviews.forEach { subview in
+            subview.removeFromSuperview()
+        }
+
         let souls = StatView()
-        souls.statImage = UIImage(named: "souls")
+        souls.statName = "souls"
 
         let level = StatView()
-        level.statImage = UIImage(named: "level")
+        level.statName = "level"
+        level.statValue = gameClass.level
         
         let rSouls = StatView()
-        rSouls.statImage = UIImage(named: "souls")
+        rSouls.statName = "souls"
         
         stackView.addArrangedSubview(level)
         stackView.addArrangedSubview(souls)
         stackView.addArrangedSubview(rSouls)
         stackView.addArrangedSubview(separatorView)
         
-        for i in 1...8 {
-            let cview = StatView()
-            cview.statImage = UIImage(named: "stat\(i)")
-            stackView.addArrangedSubview(cview)
+        gameClass.stats.forEach { stat in
+            let statView = StatView()
+            statView.statName = stat.name
+            statView.statValue = stat.value
+            stackView.addArrangedSubview(statView)
         }
     }
     

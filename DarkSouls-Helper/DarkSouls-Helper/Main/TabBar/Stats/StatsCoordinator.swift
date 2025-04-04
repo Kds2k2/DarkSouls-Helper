@@ -33,6 +33,7 @@ final class StatsCoordinator: Coordinator {
     }()
     
     func start() {
+        rootViewController.setNavigationBarHidden(true, animated: false)
         rootViewController.setViewControllers([statsViewController], animated: false)
     }
 }
