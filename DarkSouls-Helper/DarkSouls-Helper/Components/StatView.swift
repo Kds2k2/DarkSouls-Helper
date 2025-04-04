@@ -9,31 +9,28 @@ import UIKit
 
 final public class StatView: UIView {
 
-    var statImage: UIImage? {
+    var statName: String? {
         didSet {
-            statImageView.image = statImage
+            guard let name = statName else { return }
+            titleLabel.text = name.capitalized
+            statImageView.image = UIImage(named: name)
+        }
+    }
+    
+    var statValue: Int? {
+        didSet {
+            guard let value = statValue else { return }
+            numberLabel.text = "\(value)"
         }
     }
     
     private var statImageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .clear
-        view.image = AppImage.View.statsFrame
         view.contentMode = .scaleToFill
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-//    private var stackView: UIStackView = {
-//        let view = UIStackView()
-//        view.axis = .vertical
-//        view.distribution = .fillEqually
-//        view.alignment = .fill
-//        view.spacing = 5
-//        view.backgroundColor = .clear
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
     
     private var titleLabel: UILabel = {
         let view = UILabel()

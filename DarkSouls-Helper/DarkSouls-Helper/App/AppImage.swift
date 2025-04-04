@@ -30,12 +30,21 @@ struct AppImage {
         static let goldBackground = UIImage(named: "gold")
         
         static let statsFrame = UIImage(named: "statsFrame")
-        static let statFrame = UIImage(named: "statFrame")
         static let statSeparator = UIImage(named: "statSeparator")
         
+        static let map = UIImage(named: "fullmap")
+        
+        static let skull = UIImage(named: "skull")
+        static let humanity = UIImage(named: "humanity")
+        
         static let separator = UIImage(named: "separator")
+        static let bottomSeparator = UIImage(named: "bottomSeparator")
         static let column = UIImage(named: "column")
         
         static let bigBonfire = UIImage(named: "big_bonfire")
+        
+        static let classImage = UIImage(named: "classImage")
+        static let classFrame = UIImage(named: "classFrame")
+        static let scroll = UIImage(named: "scroll")
     }
 }

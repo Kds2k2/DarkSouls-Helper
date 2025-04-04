@@ -17,6 +17,7 @@ struct AppFont {
     
     struct View {
         static let title = UIFont.ebgGaramondFont(ofSize: 18, weight: .semibold)
+        static let smallTitle = UIFont.ebgGaramondFont(ofSize: 14, weight: .semibold)
         static let number = UIFont.ebgGaramondFont(ofSize: 28, weight: .semibold)
     }
 }

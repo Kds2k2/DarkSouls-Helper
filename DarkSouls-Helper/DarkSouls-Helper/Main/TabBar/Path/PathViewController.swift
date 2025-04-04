@@ -7,44 +7,35 @@
 
 import UIKit
 
-class PathViewController: UIViewController {
+class PathViewController: UIViewController, UIScrollViewDelegate {
 
     var onEnd: () -> () = {}
     
-    private lazy var emptyImageView: EmptyView = {
-        let view = EmptyView()
-        view.titleText = "Not available yet."
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let scrollView = UIScrollView()
     
-    private lazy var backgroundImageView: UIImageView = {
+    private lazy var mapImageView: UIImageView = {
         let view = UIImageView()
-        view.image = AppImage.View.backgroundSlice
-        view.contentMode = .scaleToFill
+        view.image = AppImage.View.map
+        view.contentMode = .center
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrollView.frame = view.bounds
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 0.3
+        scrollView.maximumZoomScale = 4.0
+        scrollView.addSubview(mapImageView)
+        scrollView.contentSize = mapImageView.bounds.size
 
-        view.backgroundColor = AppColor.background
-        
-        view.addSubview(backgroundImageView)
-        view.addSubview(emptyImageView)
-        
-        NSLayoutConstraint.activate([
-            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: -15),
-            backgroundImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -15),
-            backgroundImageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 15),
-            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 15),
-            
-            emptyImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
-            emptyImageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
-            emptyImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            emptyImageView.heightAnchor.constraint(equalToConstant: 70),
-        ])
+        view.addSubview(scrollView)
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return mapImageView
     }
     
     private func didButtonTap() {
