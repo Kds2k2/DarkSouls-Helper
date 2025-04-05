@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 public protocol NavigationViewDelegate: AnyObject {
     func showCharacterMenu()
@@ -17,15 +18,10 @@ extension NavigationViewDelegate {
 
 final public class NavigationView: UIView {
 
+    private var cancellables = Set<AnyCancellable>()
+    
     weak var delegate: NavigationViewDelegate?
     private var stackBottomConstraint: NSLayoutConstraint?
-    
-    public var selectedClass: CharacterClass? {
-        didSet {
-            guard let selectedClass = selectedClass else { return }
-            titleLabel.text = selectedClass.title
-        }
-    }
     
     private var backgroundView: UIImageView = {
         let view = UIImageView()
@@ -116,11 +112,22 @@ final public class NavigationView: UIView {
         ])
         
         addGesture()
+        addBinding()
     }
     
     private func addGesture() {
         let stackViewTap = UITapGestureRecognizer(target: self, action: #selector(stackViewTapped))
         stackView.addGestureRecognizer(stackViewTap)
+    }
+    
+    private func addBinding() {
+        StatsManager.shared.$selectedClass
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] gameClass in
+            guard let self = self else { return }
+            self.titleLabel.text = gameClass?.title
+        }
+        .store(in: &cancellables)
     }
     
     @objc

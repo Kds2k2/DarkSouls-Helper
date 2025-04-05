@@ -21,20 +21,20 @@ final class TabBarCoordinator: Coordinator {
         appearance.backgroundImageContentMode  = .scaleAspectFill
         
         let attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.gray,
+            .foregroundColor: AppColor.Text.gray,
             .font: AppFont.TabBar.title
         ]
         
         let selectedAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: AppColor.title,
+            .foregroundColor: AppColor.Text.gold,
             .font: AppFont.TabBar.title
         ]
         
-        appearance.stackedLayoutAppearance.normal.titleTextAttributes = attributes
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes   = attributes
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
    
         let tabBar = CustomTabBar()
-        tabBar.tintColor               = .orange
+        tabBar.tintColor               = AppColor.Text.orange
         tabBar.standardAppearance      = appearance
         tabBar.scrollEdgeAppearance    = appearance
         

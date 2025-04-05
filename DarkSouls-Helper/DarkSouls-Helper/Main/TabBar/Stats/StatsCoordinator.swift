@@ -13,16 +13,16 @@ final class StatsCoordinator: Coordinator {
     
     lazy var statsViewController: StatsViewController = {
         let vc = StatsViewController()
-        let item = UITabBarItem(title: "Stats", image: AppImage.TabBar.statsUnselected, selectedImage: AppImage.TabBar.stats)
+        let item = UITabBarItem(title: AppString.stats, image: AppImage.TabBar.statsUnselected, selectedImage: AppImage.TabBar.stats)
         
         item.setTitleTextAttributes([
             .font: AppFont.TabBar.title,
-            .foregroundColor: UIColor.gray
+            .foregroundColor: AppColor.Text.gray
         ], for: .normal)
 
         item.setTitleTextAttributes([
             .font: AppFont.TabBar.title,
-            .foregroundColor: UIColor.orange
+            .foregroundColor: AppColor.Text.orange
         ], for: .selected)
         
         item.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)

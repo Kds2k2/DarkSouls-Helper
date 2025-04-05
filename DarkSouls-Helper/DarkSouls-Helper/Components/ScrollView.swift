@@ -7,24 +7,20 @@
 
 import Foundation
 import UIKit
+import Combine
 
 protocol ScrollViewDelegate: AnyObject {
-    func didSelected(_ characterClass: CharacterClass)
+    func didSelected()
 }
 
 extension ScrollViewDelegate {
-    func didSelected(_ characterClass: CharacterClass) {}
+    func didSelected() {}
 }
 
 final public class ScrollView: UIView {
 
     weak var delegate: ScrollViewDelegate?
-    private var classes = StatsManager.shared.loadClasses()
-    public var selectedClass: CharacterClass? {
-        didSet {
-            addClasses()
-        }
-    }
+    private var cancellables = Set<AnyCancellable>()
     
     private var stackTopConstraint: NSLayoutConstraint?
     private var stackLeftConstraint: NSLayoutConstraint?
@@ -98,32 +94,40 @@ final public class ScrollView: UIView {
     }
     
     private func addClasses() {
-        guard let classes = classes else { return }
-
-        stackView.arrangedSubviews.forEach { subview in
-            subview.removeFromSuperview()
-        }
-        
-        classes.forEach { `class` in
-            let classView = CharacterClassView()
-            classView.class = `class`
-            classView.isUserInteractionEnabled = true
+        StatsManager.shared.$selectedClass
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] selectedGameClass in
+            guard let self = self else { return }
             
-            if `class`.title.lowercased() == selectedClass?.title.lowercased() {
-                classView.isSelected = true
+            self.stackView.arrangedSubviews.forEach { subview in
+                subview.removeFromSuperview()
             }
             
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(classTapped(_:)))
-            classView.addGestureRecognizer(tapGesture)
-            
-            stackView.addArrangedSubview(classView)
+            StatsManager.shared.classes.forEach { gameClass in
+                let classView = CharacterClassView()
+                classView.class = gameClass
+                classView.isUserInteractionEnabled = true
+                
+                if gameClass.title.lowercased() == selectedGameClass?.title.lowercased() {
+                    classView.isSelected = true
+                }
+                
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.classTapped(_:)))
+                classView.addGestureRecognizer(tapGesture)
+                
+                self.stackView.addArrangedSubview(classView)
+            }
         }
+        .store(in: &cancellables)
     }
     
-    @objc private func classTapped(_ sender: UITapGestureRecognizer) {
+    @objc
+    private func classTapped(_ sender: UITapGestureRecognizer) {
         guard let tappedClassView = sender.view as? CharacterClassView,
               let characterClass = tappedClassView.class else { return }
         
-        delegate?.didSelected(characterClass)
+        print("Tap")
+        StatsManager.shared.selectedClass = characterClass
+        delegate?.didSelected()
     }
 }

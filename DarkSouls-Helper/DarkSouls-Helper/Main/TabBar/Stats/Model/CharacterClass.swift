@@ -13,11 +13,21 @@ public struct GameClasses: Codable {
 
 public struct CharacterClass: Codable {
     let title: String
-    let level: Int
-    let stats: [Stat]
-}
-
-public struct Stat: Codable {
-    let name: String
-    let value: Int
+    var level: Int
+    
+    var souls: Int {
+        get {
+            return level * soulsToNextLevel
+        }
+    }
+    
+    var soulsToNextLevel: Int
+    var vitality: Int
+    var attunement: Int
+    var endurance: Int
+    var strength: Int
+    var dexterity: Int
+    var resistance: Int
+    var intelligence: Int
+    var faith: Int
 }

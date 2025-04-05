@@ -7,8 +7,13 @@
 import UIKit
 
 struct AppColor {
+    
     static let background = UIColor(named: "background")!
-    static let title = UIColor(named: "title")!
-    static let classTitle = UIColor(named: "class")!
-    static let titleUnselected = UIColor.gray
+    
+    struct Text {
+        static let gold   = UIColor(named: "title")!
+        static let brown  = UIColor(named: "class")!
+        static let orange = UIColor(named: "orange")!
+        static let gray   = UIColor.gray
+    }
 }

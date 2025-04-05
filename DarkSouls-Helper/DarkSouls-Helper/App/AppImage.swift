@@ -47,4 +47,18 @@ struct AppImage {
         static let classFrame = UIImage(named: "classFrame")
         static let scroll = UIImage(named: "scroll")
     }
+    
+    struct Stats {
+        static let level = UIImage(named: "level")
+        static let souls = UIImage(named: "souls")
+        
+        static let vitality     = UIImage(named: "vitality")
+        static let attunement   = UIImage(named: "attunement")
+        static let endurance    = UIImage(named: "endurance")
+        static let strength     = UIImage(named: "strength")
+        static let dexterity    = UIImage(named: "dexterity")
+        static let resistance   = UIImage(named: "resistance")
+        static let intelligence = UIImage(named: "intelligence")
+        static let faith        = UIImage(named: "faith")
+    }
 }

@@ -46,7 +46,7 @@ final public class CharacterClassView: UIView {
         view.backgroundColor = .clear
         view.text = "SomeClass"
         view.font = AppFont.View.title
-        view.textColor = AppColor.classTitle
+        view.textColor = AppColor.Text.brown
         view.textAlignment = .center
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

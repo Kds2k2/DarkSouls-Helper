@@ -13,16 +13,16 @@ final class PathCoordinator: Coordinator {
     
     lazy var pathViewController: PathViewController = {
         let vc = PathViewController()
-        let item = UITabBarItem(title: "Path", image: AppImage.TabBar.pathUnselected, selectedImage: AppImage.TabBar.path)
+        let item = UITabBarItem(title: AppString.path, image: AppImage.TabBar.pathUnselected, selectedImage: AppImage.TabBar.path)
         
         item.setTitleTextAttributes([
             .font: AppFont.TabBar.title,
-            .foregroundColor: UIColor.gray
+            .foregroundColor: AppColor.Text.gray
         ], for: .normal)
 
         item.setTitleTextAttributes([
             .font: AppFont.TabBar.title,
-            .foregroundColor: UIColor.orange
+            .foregroundColor: AppColor.Text.orange
         ], for: .selected)
         
         item.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
@@ -33,6 +33,7 @@ final class PathCoordinator: Coordinator {
     }()
     
     func start() {
+        rootViewController.setNavigationBarHidden(true, animated: false)
         rootViewController.setViewControllers([pathViewController], animated: false)
     }
 }

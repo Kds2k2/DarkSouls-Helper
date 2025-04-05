@@ -16,16 +16,16 @@ final class BonfireCoordinator: Coordinator {
     
     lazy var bonfireViewController: BonfireViewController = {
         let vc = BonfireViewController()
-        let item = UITabBarItem(title: "Bonfire", image: AppImage.TabBar.bonfireUnselected, selectedImage: AppImage.TabBar.bonfire)
+        let item = UITabBarItem(title: AppString.bonfire, image: AppImage.TabBar.bonfireUnselected, selectedImage: AppImage.TabBar.bonfire)
 
         item.setTitleTextAttributes([
             .font: AppFont.TabBar.title,
-            .foregroundColor: AppColor.titleUnselected
+            .foregroundColor: AppColor.Text.gray
         ], for: .normal)
 
         item.setTitleTextAttributes([
             .font: AppFont.TabBar.title,
-            .foregroundColor: AppColor.title
+            .foregroundColor: AppColor.Text.gold
         ], for: .selected)
         
         item.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)

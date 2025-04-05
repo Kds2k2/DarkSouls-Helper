@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import Combine
 
 class StatsViewController: UIViewController {
 
-    private var classes = StatsManager.shared.loadClasses()
+    private var cancellables = Set<AnyCancellable>()
     
     var onEnd: () -> () = {}
     
@@ -23,7 +24,6 @@ class StatsViewController: UIViewController {
     
     private lazy var statsImageView: StatsView = {
         let view = StatsView()
-        view.gameClass = self.classes![9]
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -31,7 +31,6 @@ class StatsViewController: UIViewController {
     private lazy var classImageView: NavigationView = {
         let view = NavigationView()
         view.delegate = self
-        view.selectedClass = self.classes![9]
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -40,8 +39,8 @@ class StatsViewController: UIViewController {
         let view = ScrollView()
         view.isHidden = true
         view.alpha    = 0
-        view.selectedClass = self.classes![9]
         view.delegate = self
+        view.isUserInteractionEnabled = false
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -95,6 +94,7 @@ class StatsViewController: UIViewController {
         ])
         
         addGesture()
+        StatsManager.shared.loadDefaultClass()
     }
     
     func addGesture() {
@@ -106,6 +106,7 @@ class StatsViewController: UIViewController {
         effectView.isHidden = false
         effectView.isUserInteractionEnabled = true
         scrollImageView.isHidden = false
+        scrollImageView.isUserInteractionEnabled = true
         effectView.alpha = 0
         scrollImageView.alpha = 0
         
@@ -128,11 +129,8 @@ class StatsViewController: UIViewController {
             self?.effectView.isUserInteractionEnabled = false
             self?.effectView.effect = .none
             self?.scrollImageView.isHidden = true
+            self?.scrollImageView.isUserInteractionEnabled = false
         })
-    }
-    
-    private func didButtonTap() {
-        onEnd()
     }
 }
 
@@ -145,10 +143,7 @@ extension StatsViewController: NavigationViewDelegate {
 
 //MARK: - NavigationViewDelegate
 extension StatsViewController: ScrollViewDelegate {
-    func didSelected(_ characterClass: CharacterClass) {
+    func didSelected() {
         hideCustomAlert()
-        statsImageView.gameClass = characterClass
-        classImageView.selectedClass = characterClass
-        scrollImageView.selectedClass = characterClass
     }
 }
