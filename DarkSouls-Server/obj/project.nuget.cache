@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "SRKLzAERO+s=",
+  "success": true,
+  "projectFilePath": "D:\\Profiles\\Dima\\Desktop\\DarkSouls-Helper\\DarkSouls-Server\\DarkSouls-Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\User\\.nuget\\packages\\fleck\\1.2.0\\fleck.1.2.0.nupkg.sha512"
+  ],
+  "logs": []
+}
