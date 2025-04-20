@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "yNw3pYtI0l0=",
+  "success": true,
+  "projectFilePath": "D:\\Profiles\\Dima\\Desktop\\DarkSouls-Overlay\\DarkSouls-Overlay\\DarkSouls-Overlay.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\User\\.nuget\\packages\\fleck\\1.2.0\\fleck.1.2.0.nupkg.sha512"
+  ],
+  "logs": []
+}

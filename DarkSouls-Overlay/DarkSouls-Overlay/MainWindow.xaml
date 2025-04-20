@@ -1,0 +1,108 @@
+﻿<Window x:Class="DarkSouls_Overlay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DarkSouls_Overlay"
+        mc:Ignorable="d"
+        
+        Title="Overlay" 
+        Height="500" Width="300"
+        
+        WindowStyle="None" 
+        AllowsTransparency="True" 
+        Background="Transparent" 
+        
+        Topmost="True"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        
+        Loaded="Window_Loaded"
+        Closed="Window_Closed"
+        KeyDown="Window_KeyDown"
+        >
+    <Grid>
+        <!-- Loading -->
+        <Grid x:Name="loadingGrid" Visibility="Visible">
+            <ProgressBar x:Name="progressBar" HorizontalAlignment="Center" Height="21" Margin="0,107,0,0" VerticalAlignment="Top" Width="180"/>
+            <Label x:Name="loadingLabel" Content="Loading..." HorizontalAlignment="Center" Margin="0,81,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial Narrow" Foreground="White"/>
+        </Grid>
+
+        <!-- Main -->
+        <Grid x:Name="labelsGrid" Visibility="Collapsed">
+            <!-- Server Status Label -->
+            <Label x:Name="serverStatusLabel" 
+                   Content="Status: Not Started" 
+                   HorizontalAlignment="Left" 
+                   Margin="10,10,0,0" 
+                   VerticalAlignment="Top" 
+                   FontSize="18" 
+                   Foreground="White"/>
+
+            <!-- Player Name Label -->
+            <Label x:Name="playerNameLabel" 
+                   Content="Player: Unknown" 
+                   HorizontalAlignment="Left" 
+                   Margin="10,40,0,0" 
+                   VerticalAlignment="Top" 
+                   FontSize="18" 
+                   Foreground="White"/>
+
+            <!-- Death Label -->
+            <Label x:Name="deathLabel" 
+                   Content="Death: 0" 
+                   HorizontalAlignment="Left" 
+                   Margin="10,70,0,0" 
+                   VerticalAlignment="Top" 
+                   FontSize="18" 
+                   Foreground="White"/>
+
+            <!-- Location Label -->
+            <Label x:Name="locationLabel" 
+                   Content="Unknown Location" 
+                   HorizontalAlignment="Left" 
+                   Margin="10,100,0,0" 
+                   VerticalAlignment="Top" 
+                   FontSize="18" 
+                   Foreground="White"/>
+
+            <!-- LastBoss Label -->
+            <Label x:Name="lastBossLabel" 
+                   Content="Last Boss: Unknown" 
+                   HorizontalAlignment="Left" 
+                   Margin="10,130,0,0" 
+                   VerticalAlignment="Top" 
+                   FontSize="18" 
+                   Foreground="White"/>
+
+            <!-- ListBox for Bosses -->
+            <ListBox x:Name="bossesListBox"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Top"
+                     Margin="10,140,0,0"
+                     Width="200"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Visibility="Collapsed"
+                     FontSize="15"
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Window>
