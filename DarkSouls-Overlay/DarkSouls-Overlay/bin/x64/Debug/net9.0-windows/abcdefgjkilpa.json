@@ -1,9 +1,9 @@
 {
   "Nickname": "abcdefgjkilpa",
-  "TotalDeath": 13,
-  "LastBoss": "Asylum Demon: 3",
+  "TotalDeath": 21,
+  "LastBoss": "Asylum Demon: 7",
   "Bosses": {
-    "Gwyndolin": 0,
+    "Gwyndolin": 1,
     "Non Invadeable Area": 3,
     "Gaping Dragon": 0,
     "Gargoyles": 0,
@@ -18,7 +18,7 @@
     "Four Kings": 0,
     "Seath": 0,
     "Gwyn": 0,
-    "Asylum Demon": 3,
+    "Asylum Demon": 7,
     "Taurus Demon": 0,
     "Capra Demon": 0,
     "Moonlight Butterfly": 0,

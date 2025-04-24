@@ -1,25 +1,18 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using DarkSouls_Overlay.Managers;
+using System.Buffers.Text;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.Json;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace DarkSouls_Overlay
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// </summary>hh
     public partial class MainWindow : Window
     {
         // Timer Import
@@ -54,11 +47,22 @@ namespace DarkSouls_Overlay
         private IntPtr _hookID = IntPtr.Zero;
         private bool isReady = false;
 
+        // Collection Variables
+        private int currentPage = 0;
+        private int itemsPerPage = 9;
+        private ICollectionView pagedView;
+
+        // Scanner Variables
+        private IntPtr baseB;
+        //private IntPtr baseX;
+        //private IntPtr basePF;
+        private IntPtr baseBS;
+
         // Game Process
         private Process gameProcess;
 
-        // Player Variables
-        private PlayerStats playerStats;
+        // PlayerManager
+        private PlayerStatsManager playerManager;
 
         // Property for Player Name Label
         private string _playerName;
@@ -68,7 +72,7 @@ namespace DarkSouls_Overlay
             set
             {
                 _playerName = value;
-                Dispatcher.Invoke(() =>
+                Dispatcher.BeginInvoke(() =>
                 {
                     playerNameLabel.Content = $"Player: {_playerName ?? "Unknown"}";
                 });
@@ -83,9 +87,9 @@ namespace DarkSouls_Overlay
             set
             {
                 _deathCount = value;
-                playerStats.TotalDeath = _deathCount;
+                playerManager.PlayerStats.TotalDeath = _deathCount;
 
-                Dispatcher.Invoke(() =>
+                Dispatcher.BeginInvoke(() =>
                 {
                     deathLabel.Content = $"Death: {_deathCount}";    
                 });
@@ -100,13 +104,14 @@ namespace DarkSouls_Overlay
             set
             {
                 _currentLocation = value;
-                Dispatcher.Invoke(() =>
+                Dispatcher.BeginInvoke(() =>
                 {
                     locationLabel.Content = _currentLocation ?? "Unknown Location";
                 });
             }
         }
 
+        // Property for Last Boss Label
         private string _lastBoss;
         public string LastBoss
         {
@@ -114,8 +119,8 @@ namespace DarkSouls_Overlay
             set
             {
                 _lastBoss = value;
-                playerStats.LastBoss = _lastBoss ?? "Unknown";
-                Dispatcher.Invoke(() =>
+                playerManager.PlayerStats.LastBoss = _lastBoss ?? "Unknown";
+                Dispatcher.BeginInvoke(() =>
                 {
                     lastBossLabel.Content = $"Last Boss: {_lastBoss ?? "Unknown"}";
                 });
@@ -209,14 +214,28 @@ namespace DarkSouls_Overlay
                         {
                             PopulateBossesList();
                             bossesListBox.Visibility = Visibility.Visible;
+                            pageLabel.Visibility = Visibility.Visible; // Show page label
                             lastBossLabel.Visibility = Visibility.Collapsed;
                         }
                         else if (bossesListBox.Visibility == Visibility.Visible)
                         {
                             bossesListBox.Visibility = Visibility.Collapsed;
+                            pageLabel.Visibility = Visibility.Collapsed; // Hide page label
                             lastBossLabel.Visibility = Visibility.Visible;
                         }
                     });
+                }
+
+                if (isReady && bossesListBox.Visibility == Visibility.Visible)
+                {
+                    if (vkCode == KeyInterop.VirtualKeyFromKey(Key.Right))
+                    {
+                        MoveToPage(currentPage + 1); // Next page
+                    }
+                    else if (vkCode == KeyInterop.VirtualKeyFromKey(Key.Left))
+                    {
+                        MoveToPage(currentPage - 1); // Previous page
+                    }
                 }
             }
 
@@ -227,66 +246,36 @@ namespace DarkSouls_Overlay
         private void RunGameScanner()
         {
             Scanner scan = new Scanner(gameProcess);
-            Dispatcher.Invoke(() => loadingLabel.Content = "Loading BaseB"); //0%
+            Dispatcher.Invoke(() => loadingLabel.Content = "Loading BaseB");
 
-            // BaseB
-            var resultsB = scan.Scan(Base.patternB);
-            var getB = resultsB[0];
-            var baseB = scan.Read(getB) ?? IntPtr.Zero;
+            baseB = GetBaseAddress(scan, Base.patternB, "BaseB");
+            Dispatcher.Invoke(() => {
+                loadingLabel.Content = "Loading BaseBS";
+                progressBar.Value += 50;
+            });
 
-            if (baseB == IntPtr.Zero)
-            {
-                Dispatcher.Invoke(() => MessageBox.Show("BaseB is null"));
-                return;
-            }
-            Dispatcher.Invoke(() => progressBar.Value += 25);
-            Dispatcher.Invoke(() => loadingLabel.Content = "Loading BaseX"); //25%
+            //baseX = GetBaseAddress(scan, Base.patternX, "BaseX");
+            //Dispatcher.Invoke(() => {
+            //    loadingLabel.Content = "Loading BasePF";
+            //    progressBar.Value += 25;
+            //});
 
-            // BaseX
-            var resultsX = scan.Scan(Base.patternX);
-            var getX = resultsX[0];
-            var baseX = scan.Read(getX) ?? IntPtr.Zero;
+            //basePF = GetBaseAddress(scan, Base.patternPF, "BasePF");
+            //Dispatcher.Invoke(() => {
+            //    loadingLabel.Content = "Loading BaseBS";
+            //    progressBar.Value += 25;
+            //});
 
-            if (baseX == IntPtr.Zero)
-            {
-                Dispatcher.Invoke(() => MessageBox.Show("BaseX is null"));
-                return;
-            }
-            Dispatcher.Invoke(() => progressBar.Value += 25);
-            Dispatcher.Invoke(() => loadingLabel.Content = "Loading BasePF"); //50%
+            baseBS = GetBaseAddress(scan, Base.patternBS, "BaseBS");
+            Dispatcher.Invoke(() => {
+                loadingLabel.Content = "Done.";
+                progressBar.Value += 50;
+            });
 
-            // BasePF
-            var resultsPF = scan.Scan(Base.patternPF);
-            var getPF = resultsPF[0];
-            var basePF = scan.Read(getPF) ?? IntPtr.Zero;
-
-            if (basePF == IntPtr.Zero)
-            {
-                Dispatcher.Invoke(() => MessageBox.Show("BasePF is null"));
-                return;
-            }
-            Dispatcher.Invoke(() => progressBar.Value += 25);
-            Dispatcher.Invoke(() => loadingLabel.Content = "Loading BaseBS"); //75%
-
-            // BaseBS
-            var resultsBS = scan.Scan(Base.patternBS);
-            var getBS = resultsBS[0];
-            var baseBS = scan.Read(getBS) ?? IntPtr.Zero;
-
-            if (baseBS == IntPtr.Zero)
-            {
-                Dispatcher.Invoke(() => MessageBox.Show("BaseBS is null"));
-                return;
-            }
-            Dispatcher.Invoke(() => progressBar.Value += 25);
-            Dispatcher.Invoke(() => loadingLabel.Content = "Done.");         //100%
-
-            // Change UI
             Dispatcher.Invoke(() =>
             {
                 loadingGrid.Visibility = Visibility.Collapsed;
                 labelsGrid.Visibility = Visibility.Visible;
-
                 isReady = true;
             });
 
@@ -296,28 +285,28 @@ namespace DarkSouls_Overlay
                 if (isFirstTime)
                 {
                     PlayerName = scan.GetString(baseB, [0x10, 0xA8]).Replace("\u0000", "");
-                    playerStats = LoadPlayerStats($"{PlayerName}.json");
-                    LastBoss = playerStats.LastBoss;
+                    playerManager = new PlayerStatsManager(PlayerName);
+                    LastBoss = playerManager.PlayerStats.LastBoss;
                 }
 
                 var death = scan.Get(baseB, [0x98]);
                 var location = scan.Get(baseBS, [0x10, 0x8, 0x68, 0x8, 0xF44]);
 
-                if (death > playerStats.TotalDeath)
+                if (death > playerManager.PlayerStats.TotalDeath)
                 {                    
                     var name = scan.GetString(baseB, [0x10, 0xA8]).Replace("\u0000", "");
 
                     if (Location.locations.TryGetValue(location, out string bossName) && !isFirstTime)
                     {
-                        if (playerStats.Bosses.ContainsKey(bossName))
+                        if (playerManager.PlayerStats.Bosses.ContainsKey(bossName))
                         {
-                            playerStats.Bosses[bossName] += 1;
-                            LastBoss = $"{bossName}: {playerStats.Bosses[bossName]}";
+                            playerManager.PlayerStats.Bosses[bossName] += 1;
+                            LastBoss = $"{bossName}: {playerManager.PlayerStats.Bosses[bossName]}";
                             PopulateBossesList();
                         }
                     }
 
-                    SavePlayerStats(playerStats, $"{name}.json");
+                    playerManager.SavePlayerStats();
                     SendPlayerStats();
                     isFirstTime = false;
                 }
@@ -327,6 +316,20 @@ namespace DarkSouls_Overlay
 
                 Thread.Sleep(500);
             } while (true);
+        }
+        private IntPtr GetBaseAddress(Scanner scan, string pattern, string name)
+        {
+            var results = scan.Scan(pattern);
+            var address = scan.Read(results[0]) ?? IntPtr.Zero;
+
+            if (address == IntPtr.Zero)
+            {
+                // Make AlertManager (HandleError)
+                Dispatcher.Invoke(() => { MessageBox.Show($"{name} is null"); });
+                return IntPtr.Zero;
+            }
+
+            return address;
         }
 
         // Timer methods
@@ -358,73 +361,55 @@ namespace DarkSouls_Overlay
 
             if (GetWindowRect(gameWindowHandle, out RECT rect))
             {
-                this.Left = rect.Left + 40;
+                this.Left = rect.Right - this.Width;
                 this.Top = rect.Top + 40;
-                this.Height = rect.Bottom - this.Top;
+                this.Height = rect.Bottom - rect.Top;
             }
-        }
-
-        // Player methods
-        public void SavePlayerStats(PlayerStats stats, string filePath)
-        {
-            string json = JsonSerializer.Serialize(stats, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(filePath, json);
-        }
-        public PlayerStats LoadPlayerStats(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                return new PlayerStats {
-                    Nickname = PlayerName,
-                    LastBoss = "No last boss",
-                    TotalDeath = DeathCount,
-                    Bosses = new Dictionary<string, int>
-                    {
-                        { "Gwyndolin", 0 },
-                        { "Non Invadeable Area", 0 },
-                        { "Gaping Dragon", 0 },
-                        { "Gargoyles", 0 },
-                        { "Crossbreed Priscilla", 0 },
-                        { "Sif", 0 },
-                        { "Pinwheel", 0 },
-                        { "Gravelord Nito", 0 },
-                        { "Quelaag", 0 },
-                        { "Bed of Chaos", 0 },
-                        { "Iron Golem", 0 },
-                        { "O&S", 0 },
-                        { "Four Kings", 0 },
-                        { "Seath", 0 },
-                        { "Gwyn", 0 },
-                        { "Asylum Demon", 0 },
-                        { "Taurus Demon", 0 },
-                        { "Capra Demon", 0 },
-                        { "Moonlight Butterfly", 0 },
-                        { "Sanctuary Guardian", 0 },
-                        { "Artorias", 0 },
-                        { "Manus", 0 },
-                        { "Kalameet", 0 },
-                        { "Demon Firesage", 0 },
-                        { "Ceaseless Discharge", 0 },
-                        { "Centipede Demon", 0 },
-                        { "Stray Demon", 0 },
-                    }
-                };
-            }
-
-            string json = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<PlayerStats>(json);
         }
         private void PopulateBossesList()
         {
+            List<string> items = playerManager.GetBossItems();
+
+            pagedView = CollectionViewSource.GetDefaultView(items);
+            pagedView.Filter = PageFilter;
+
+            // Ensure all UI updates happen on the UI thread
             Dispatcher.Invoke(() =>
             {
-                bossesListBox.Items.Clear();
-                foreach (var boss in playerStats.Bosses)
-                {
-                    bossesListBox.Items.Add($"{boss.Key}: {boss.Value}");
-                }
+                bossesListBox.ItemsSource = pagedView;
+                pagedView.Refresh(); // Refresh the view on the UI thread
 
-                bossesListBox.Height = bossesListBox.Items.Count * 30;
+                // Update the page label
+                int totalPages = (int)Math.Ceiling((double)items.Count / itemsPerPage);
+                pageLabel.Content = $"<-- Page: {currentPage + 1}/{totalPages} -->";
+            });
+        }
+
+        // Paging methods
+        private bool PageFilter(object item)
+        {
+            List<string> items = playerManager.GetBossItems();
+
+            int index = items.IndexOf(item as string);
+            return index >= currentPage * itemsPerPage && index < (currentPage + 1) * itemsPerPage;
+        }
+        private void MoveToPage(int page)
+        {
+            List<string> items = playerManager.GetBossItems();
+
+            int totalPages = (int)Math.Ceiling((double)items.Count / itemsPerPage);
+
+            // Ensure the page is within bounds
+            if (page < 0 || page >= totalPages)
+                return;
+
+            currentPage = page;
+            pagedView.Refresh();
+
+            // Update the page label
+            Dispatcher.Invoke(() =>
+            {
+                pageLabel.Content = $"<-- Page: {currentPage + 1}/{totalPages} -->";
             });
         }
 
@@ -452,8 +437,8 @@ namespace DarkSouls_Overlay
             var data = new
             {
                 PlayerName = PlayerName,
-                TotalDeaths = playerStats.TotalDeath,
-                BossDeaths = playerStats.Bosses
+                TotalDeaths = playerManager.PlayerStats.TotalDeath,
+                BossDeaths = playerManager.PlayerStats.Bosses
             };
 
             Server.shared.SendJson(data);

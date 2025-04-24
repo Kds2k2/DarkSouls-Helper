@@ -75,8 +75,8 @@
                    FontSize="18" 
                    Foreground="White"/>
 
-            <!-- ListBox for Bosses -->
-            <ListBox x:Name="bossesListBox"
+            <StackPanel>
+                <ListBox x:Name="bossesListBox"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
                      Margin="10,140,0,0"
@@ -87,22 +87,34 @@
                      FontSize="15"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="BorderThickness" Value="0" />
-                        <Setter Property="Foreground" Value="White" />
-                        <Setter Property="Padding" Value="5" />
-                        <Setter Property="HorizontalContentAlignment" Value="Left" />
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="Padding" Value="5" />
+                            <Setter Property="HorizontalContentAlignment" Value="Left" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+
+                <!-- Page Label -->
+                <Label x:Name="pageLabel"
+                    Content= "&lt;-- Page: 1/1 -->"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Width="200"
+                    Margin="0,10,0,0"
+                    FontSize="14"
+                    Foreground="White"
+                    Visibility="Collapsed" />
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

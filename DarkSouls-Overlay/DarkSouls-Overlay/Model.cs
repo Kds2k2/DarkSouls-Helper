@@ -86,14 +86,6 @@ namespace DarkSouls_Overlay
         };
     }
 
-    public class PlayerStats
-    {
-        public string Nickname { get; set; }
-        public int TotalDeath { get; set; }
-        public string LastBoss { get; set; }
-        public Dictionary<string, int> Bosses { get; set; } = new Dictionary<string, int>();
-    }
-
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
     {

@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-D:\Profiles\Dima\Desktop\DarkSouls-Overlay\DarkSouls-Overlay\obj\x64\Debug\net9.0-windows\
+D:\Profiles\Dima\Desktop\DarkSouls-Helper\DarkSouls-Overlay\DarkSouls-Overlay\obj\x64\Debug\net9.0-windows\
 DarkSouls_Overlay
 none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-D:\Profiles\Dima\Desktop\DarkSouls-Overlay\DarkSouls-Overlay\App.xaml
+D:\Profiles\Dima\Desktop\DarkSouls-Helper\DarkSouls-Overlay\DarkSouls-Overlay\App.xaml
 11407045341
 
-9553215524
+12-912813542
 2011913491060
 MainWindow.xaml;
 

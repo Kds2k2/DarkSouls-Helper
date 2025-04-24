@@ -42,11 +42,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Profiles\\Dima\\Desktop\\DarkSouls-Overlay\\DarkSouls-Overlay\\DarkSouls-Overlay.csproj",
+      "projectUniqueName": "D:\\Profiles\\Dima\\Desktop\\DarkSouls-Helper\\DarkSouls-Overlay\\DarkSouls-Overlay\\DarkSouls-Overlay.csproj",
       "projectName": "DarkSouls-Overlay",
-      "projectPath": "D:\\Profiles\\Dima\\Desktop\\DarkSouls-Overlay\\DarkSouls-Overlay\\DarkSouls-Overlay.csproj",
+      "projectPath": "D:\\Profiles\\Dima\\Desktop\\DarkSouls-Helper\\DarkSouls-Overlay\\DarkSouls-Overlay\\DarkSouls-Overlay.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "D:\\Profiles\\Dima\\Desktop\\DarkSouls-Overlay\\DarkSouls-Overlay\\obj\\",
+      "outputPath": "D:\\Profiles\\Dima\\Desktop\\DarkSouls-Helper\\DarkSouls-Overlay\\DarkSouls-Overlay\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

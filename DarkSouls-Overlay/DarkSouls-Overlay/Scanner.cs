@@ -138,10 +138,10 @@ namespace DarkSouls_Overlay
 
             if (!ReadProcessMemory(hProcess, Base, pointerBuffer, pointerBuffer.Length, out int _))
             {
-                Application.Current.Dispatcher.Invoke(() => MessageBox.Show($"Failed to read first pointer at {Base:X}!"));
-                Application.Current.Shutdown();
+                HandleError($"Failed to read first pointer at {Base:X}!");
                 return -1;
             }
+
 
             currentAddress = (IntPtr)BitConverter.ToInt64(pointerBuffer, 0);
 
@@ -151,8 +151,7 @@ namespace DarkSouls_Overlay
 
                 if (!ReadProcessMemory(hProcess, nextAddress, pointerBuffer, pointerBuffer.Length, out int _))
                 {
-                    Application.Current.Dispatcher.Invoke(() => MessageBox.Show($"Failed to read first pointer at {nextAddress:X}!"));
-                    Application.Current.Shutdown();
+                    HandleError($"Failed to read next pointer at {nextAddress:X}!");
                     return -1;
                 }
 
@@ -181,8 +180,7 @@ namespace DarkSouls_Overlay
 
             if (!ReadProcessMemory(hProcess, Base, pointerBuffer, pointerBuffer.Length, out int _))
             {
-                Application.Current.Dispatcher.Invoke(() => MessageBox.Show($"Failed to read first pointer at {Base:X}!"));
-                Application.Current.Shutdown();
+                HandleError($"Failed to read first pointer at {Base:X}!");
                 return -1;
             }
 
@@ -194,8 +192,7 @@ namespace DarkSouls_Overlay
 
                 if (!ReadProcessMemory(hProcess, nextAddress, pointerBuffer, pointerBuffer.Length, out int _))
                 {
-                    Application.Current.Dispatcher.Invoke(() => MessageBox.Show($"Failed to read pointer at {nextAddress:X}!"));
-                    Application.Current.Shutdown();
+                    HandleError($"Failed to read next pointer at {nextAddress:X}!");
                     return -1;
                 }
 
@@ -222,8 +219,7 @@ namespace DarkSouls_Overlay
 
             if (!ReadProcessMemory(hProcess, Base, pointerBuffer, pointerBuffer.Length, out int _))
             {
-                Application.Current.Dispatcher.Invoke(() => MessageBox.Show($"Failed to read first pointer at {Base:X}!"));
-                Application.Current.Shutdown();
+                HandleError($"Failed to read first pointer at {Base:X}!");
                 return string.Empty;
             }
 
@@ -235,8 +231,7 @@ namespace DarkSouls_Overlay
 
                 if (!ReadProcessMemory(hProcess, nextAddress, pointerBuffer, pointerBuffer.Length, out int _))
                 {
-                    Application.Current.Dispatcher.Invoke(() => MessageBox.Show($"Failed to read pointer at {nextAddress:X}!"));
-                    Application.Current.Shutdown();
+                    HandleError($"Failed to read next pointer at {nextAddress:X}!");
                     return string.Empty;
                 }
 
@@ -252,6 +247,16 @@ namespace DarkSouls_Overlay
             //Application.Current.Dispatcher.Invoke(() => MessageBox.Show($"Failed to read string at {finalAddress:X}!"));
             //Application.Current.Shutdown();
             //return string.Empty;
+        }
+
+        // Handle
+        private void HandleError(string message)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show(message);
+                Application.Current.Shutdown();
+            });
         }
 
         // Imports
