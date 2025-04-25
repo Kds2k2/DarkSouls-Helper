@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace DarkSouls_Overlay
 {
@@ -53,7 +48,6 @@ namespace DarkSouls_Overlay
             { -11410911, "Centipede Demon" },
             { -11810910, "Stray Demon" },
         };
-
         public static Dictionary<string, int> bosses = new Dictionary<string, int>
         {
             { "Gwyndolin", 0 },

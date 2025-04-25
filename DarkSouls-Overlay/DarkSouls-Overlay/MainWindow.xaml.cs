@@ -1,5 +1,4 @@
 ﻿using DarkSouls_Overlay.Managers;
-using System.Buffers.Text;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -287,6 +286,7 @@ namespace DarkSouls_Overlay
                     PlayerName = scan.GetString(baseB, [0x10, 0xA8]).Replace("\u0000", "");
                     playerManager = new PlayerStatsManager(PlayerName);
                     LastBoss = playerManager.PlayerStats.LastBoss;
+                    SendPlayerStats();
                 }
 
                 var death = scan.Get(baseB, [0x98]);
@@ -373,13 +373,11 @@ namespace DarkSouls_Overlay
             pagedView = CollectionViewSource.GetDefaultView(items);
             pagedView.Filter = PageFilter;
 
-            // Ensure all UI updates happen on the UI thread
             Dispatcher.Invoke(() =>
             {
                 bossesListBox.ItemsSource = pagedView;
-                pagedView.Refresh(); // Refresh the view on the UI thread
+                pagedView.Refresh();
 
-                // Update the page label
                 int totalPages = (int)Math.Ceiling((double)items.Count / itemsPerPage);
                 pageLabel.Content = $"<-- Page: {currentPage + 1}/{totalPages} -->";
             });
@@ -399,14 +397,12 @@ namespace DarkSouls_Overlay
 
             int totalPages = (int)Math.Ceiling((double)items.Count / itemsPerPage);
 
-            // Ensure the page is within bounds
             if (page < 0 || page >= totalPages)
                 return;
 
             currentPage = page;
             pagedView.Refresh();
 
-            // Update the page label
             Dispatcher.Invoke(() =>
             {
                 pageLabel.Content = $"<-- Page: {currentPage + 1}/{totalPages} -->";

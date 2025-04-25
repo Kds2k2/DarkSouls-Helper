@@ -1,10 +1,7 @@
 ﻿using System.Text;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
-using System.Windows.Threading;
 using System.Windows;
-using System.Net;
 
 namespace DarkSouls_Overlay
 {

@@ -1,6 +1,4 @@
 ﻿using Fleck;
-using System;
-using System.Collections.Generic;
 using System.Text.Json;
 
 namespace DarkSouls_Overlay
@@ -31,14 +29,14 @@ namespace DarkSouls_Overlay
                 {
                     Console.WriteLine("Client connected.");
                     connections.Add(config);
-                    OnClientConnected?.Invoke(); // Trigger event
+                    OnClientConnected?.Invoke();
                 };
 
                 config.OnClose = () =>
                 {
                     Console.WriteLine("Client disconnected.");
                     connections.Remove(config);
-                    OnClientDisconnected?.Invoke(); // Trigger event
+                    OnClientDisconnected?.Invoke();
                 };
 
                 config.OnMessage = message =>
