@@ -12,6 +12,8 @@ final class TabBarCoordinator: Coordinator {
     
     var childCoordinators = [Coordinator]()
     
+    private var websocketManager: WebsocketManager?
+    
     init() {
         rootViewController = UITabBarController()
         
@@ -39,6 +41,7 @@ final class TabBarCoordinator: Coordinator {
         tabBar.scrollEdgeAppearance    = appearance
         
         rootViewController.setValue(tabBar, forKey: "tabBar")
+        setupWebSocket()
         addCustomViewToTabBar()
     }
     
@@ -70,5 +73,36 @@ final class TabBarCoordinator: Coordinator {
         customView.center = CGPoint(x: tabBar.bounds.midX, y: tabBar.bounds.minY + 20)
 
         tabBar.addSubview(customView)
+    }
+    
+    func setupWebSocket() {
+        guard let url = URL(string: "ws://192.168.88.112:8181") else { return }
+
+        websocketManager = WebsocketManager(url: url)
+        websocketManager?.delegate = self
+        websocketManager?.connect()
+    }
+}
+
+extension TabBarCoordinator: WebsocketManagerDelegate {
+    func websocketDidReceiveMessage(_ message: String) {
+        if let jsonData = message.data(using: .utf8) {
+            do {
+                let player = try JSONDecoder().decode(Player.self, from: jsonData)
+                PlayerManager.shared.player = player
+            } catch {
+                print("Decoding error: \(error)")
+            }
+        } else {
+            print("📩 Received message: \(message)")
+        }
+    }
+
+    func websocketDidDisconnect(error: Error?) {
+        print("❌ WebSocket disconnected: \(error?.localizedDescription ?? "Unknown error")")
+    }
+
+    func websocketDidConnect() {
+        print("✅ WebSocket connected")
     }
 }

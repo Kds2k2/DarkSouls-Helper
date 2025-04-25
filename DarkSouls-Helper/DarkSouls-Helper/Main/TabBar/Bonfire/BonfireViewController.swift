@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import Combine
 
 class BonfireViewController: UIViewController {
 
+    private var cancellables = Set<AnyCancellable>()
+    
     var deathCount: Int = 0 {
         didSet {
             deathLabel.text = "\(deathCount)"
@@ -110,7 +113,18 @@ class BonfireViewController: UIViewController {
             deathLabel.rightAnchor.constraint(equalTo: skullImageView.leftAnchor, constant: -12),
         ])
         
+        binding()
         addGesture()
+    }
+    
+    private func binding() {
+        PlayerManager.shared.$player
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] player in
+                guard let self = self, let player = player else { return }
+                self.deathCount = player.TotalDeaths
+            }
+            .store(in: &cancellables)
     }
     
     private func addGesture() {

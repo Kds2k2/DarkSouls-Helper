@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		264EB77D2DBA9BC20098D184 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 264EB77C2DBA9BC20098D184 /* SocketIO */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		26E472FD2D9D403700909AFE /* DarkSouls-Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DarkSouls-Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				264EB77D2DBA9BC20098D184 /* SocketIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = "DarkSouls-Helper";
 			packageProductDependencies = (
+				264EB77C2DBA9BC20098D184 /* SocketIO */,
 			);
 			productName = "DarkSouls-Helper";
 			productReference = 26E472FD2D9D403700909AFE /* DarkSouls-Helper.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = 26E472F42D9D403700909AFE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				264EB77B2DBA9BC20098D184 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 26E472FE2D9D403700909AFE /* Products */;
 			projectDirPath = "";
@@ -343,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		264EB77B2DBA9BC20098D184 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		264EB77C2DBA9BC20098D184 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 264EB77B2DBA9BC20098D184 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 26E472F52D9D403700909AFE /* Project object */;
 }
