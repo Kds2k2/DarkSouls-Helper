@@ -1,6 +1,7 @@
 # DarkSouls-Helper
 
 Dark Souls Helper - project that consists of two solutions.
+Status: Abandoned / Work-in-progress (no longer maintained).
 
 
 ## 1. Overlay for Dark Souls: Remastered. 
