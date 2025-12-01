@@ -19,8 +19,7 @@ final class TabBarCoordinator: Coordinator {
         
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundImage = AppImage.TabBar.background
-        appearance.backgroundImageContentMode  = .scaleAspectFill
+        appearance.backgroundColor = UIColor(patternImage: AppImage.TabBar.background!)
         
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: AppColor.Text.gray,

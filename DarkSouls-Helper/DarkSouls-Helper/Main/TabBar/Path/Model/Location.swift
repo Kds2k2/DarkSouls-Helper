@@ -8,6 +8,7 @@ import Foundation
 
 struct Location {
     var name: String
+    var description: String?
     var link: URL?
     var coordinates: CGPoint
 }

@@ -10,7 +10,7 @@ import UIKit
 class PathViewController: UIViewController {
 
     var locations: [Location] = [
-        Location(name: "Fire Shrine", link: nil, coordinates: CGPoint(x: 2821, y: 2481)),
+        Location(name: "Fire Shrine", description: "The Firelink Shrine serves as a base for the Chosen Undead and is a hub connecting to many other locations. Once a character is rescued, or upon reaching a turning point of their storyline, they will typically relocate to Firelink Shrine and offer some sort of service. Anastacia of Astora is the bonfire's Fire Keeper. \n\nIf any key item (such as a Lord Soul or the Covenant of Artorias) is dropped during gameplay, it will respawn in the chest behind Kingseeker Frampt's location. \n\n Notes: \n\n Giant Crow - This crow will transport you back to the Northern Undead Asylum provided that you have access to the elevator connecting Firelink Shrine  with the Undead Parish. \n\nAnastacia of Astora - Also known as the Ash Maiden, Anastacia is the fire keeper in Firelink Shrine. Located just below the bonfire down the stairs, she can upgrade your estus flask if brought a fire keeper soul. \n\n Crestfallen Warrior - This knight has become an undead and fears insanity above all, standing by the fire and resenting your travels. He will leave Firelink if you talk to him after Frampt appears in the nearby ruin, saying something about a horrible smell and doing something about it. He can later be found as a hollow near the first bridge after entering New Londo Ruins.", link: nil, coordinates: CGPoint(x: 2821, y: 2481)),
         Location(name: "Sen's Fortress", link: nil, coordinates: CGPoint(x: 2668, y: 1807)),
         Location(name: "Catacombs", link: nil, coordinates: CGPoint(x: 1721, y: 1949))
     ]

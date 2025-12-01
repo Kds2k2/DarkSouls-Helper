@@ -40,6 +40,18 @@ class LocationViewController: UIViewController {
         return view
     }()
     
+    private var descriptionLabel: UILabel = {
+        let view = UILabel()
+        view.backgroundColor = .clear
+        view.text = "Description"
+        view.font = AppFont.View.smallTitle
+        view.textColor = .lightGray
+        view.textAlignment = .center
+        view.numberOfLines = 0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,6 +60,7 @@ class LocationViewController: UIViewController {
         view.addSubview(backgroundImageView)
         view.addSubview(emptyImageView)
         view.addSubview(titleLabel)
+        view.addSubview(descriptionLabel)
         
         NSLayoutConstraint.activate([
             backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: -5),
@@ -63,11 +76,16 @@ class LocationViewController: UIViewController {
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 13),
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor),
             titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 50),
+            descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
         ])
     }
     
     private func configure() {
         guard let location = location else { return }
         titleLabel.text = location.name
+        descriptionLabel.text = location.description ?? "No Description."
     }
 }
